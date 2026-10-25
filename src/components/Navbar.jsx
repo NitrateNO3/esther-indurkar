@@ -10,9 +10,9 @@ import './Navbar.css'
 // Each menu link previews a different photograph on hover.
 const NAV_LINKS = [
   { label: 'Home', href: '#top', image: portrait },
-  { label: 'About', href: '#about', image: onStage },
-  { label: 'Services', href: '#services', image: hopePortrait },
-  { label: 'Speaking', href: '#speaking', image: microphone },
+  { label: 'Meet Esther', href: '#about', image: onStage },
+  { label: 'Services', href: '#services', image: microphone },
+  { label: 'Project HOPE', href: '#project-hope', image: hopePortrait },
   { label: 'Contact', href: '#contact', image: redBlazer },
 ]
 

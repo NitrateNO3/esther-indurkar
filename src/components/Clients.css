@@ -1,0 +1,91 @@
+.clients {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(224, 74, 98, 0.35), transparent 70%),
+    linear-gradient(160deg, #6d0c1f, var(--color-wine-800) 55%, var(--color-wine-900));
+  color: var(--color-champagne);
+}
+
+.clients__title {
+  text-align: center;
+}
+
+.clients__title em {
+  color: var(--color-crimson-light);
+}
+
+.clients__rows {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+/* Each row fades out softly at both edges */
+.clients__row {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.clients__track {
+  display: flex;
+  gap: var(--space-3);
+  width: max-content;
+  animation: clients-scroll 45s linear infinite;
+}
+
+/* The second row runs the other way */
+.clients__row--reverse .clients__track {
+  animation-direction: reverse;
+}
+
+/* Pause when hovered so a logo can be looked at */
+.clients__row:hover .clients__track {
+  animation-play-state: paused;
+}
+
+/* Moves by half the track (one full set of logos) plus half a gap,
+   which lines the duplicate set up exactly where the first began. */
+@keyframes clients-scroll {
+  to {
+    transform: translateX(calc(-50% - var(--space-3) / 2));
+  }
+}
+
+.clients__item {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: clamp(9rem, 7rem + 5vw, 13rem);
+  aspect-ratio: 3 / 2;
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  background-color: var(--color-white);
+  box-shadow: 0 16px 30px -20px rgba(0, 0, 0, 0.6);
+}
+
+.clients__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Reduced motion: no scrolling, just a wrapped grid of logos */
+@media (prefers-reduced-motion: reduce) {
+  .clients__row {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .clients__track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    padding-inline: var(--gutter);
+    animation: none;
+  }
+
+  .clients__item[aria-hidden="true"] {
+    display: none;
+  }
+}

@@ -28,6 +28,9 @@
   --color-plum: #241021;         /* Keynote speeches */
   --color-plum-raised: #2f1529;  /* cards on plum */
   --color-sand: #eadbc3;         /* Services */
+  --color-white: #fffcf8;        /* white sections and cards */
+  --color-bone-text: #4a3538;    /* body text on light */
+  --radius: 1rem;
 
   --color-line-dark: rgba(236, 220, 196, 0.16);
   --color-line-light: rgba(31, 12, 16, 0.16);

@@ -1,182 +1,268 @@
 .about {
-  position: relative;
-  min-height: 78vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding-block: clamp(4.5rem, 3rem + 4vw, 7rem);
-  background:
-    radial-gradient(ellipse 45% 70% at 76% 70%, rgba(163, 22, 47, 0.5), transparent 70%),
-    var(--color-oxblood);
+  background-color: var(--color-white);
+  color: var(--color-bone-ink);
 }
 
-/* Giant outlined name behind her */
-.about__backdrop {
-  position: absolute;
-  right: -4vw;
-  top: 46%;
-  font-family: var(--font-display);
-  font-size: clamp(7rem, 2rem + 15vw, 19rem);
-  font-style: italic;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(236, 220, 196, 0.22);
-  white-space: nowrap;
-  transform: translateY(-50%);
-  pointer-events: none;
-  user-select: none;
-}
-
-.about__inner {
-  position: relative;
-  z-index: 2;
-}
-
-.about__text {
-  max-width: min(44rem, 54%);
-}
-
-.about__label {
-  color: var(--color-champagne-muted);
-}
-
-/* ---------- The sentence ---------- */
-.about__statement {
-  margin-top: var(--space-4);
-  font-size: clamp(2rem, 1.1rem + 2vw, 3.25rem);
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-}
-
-.about__statement em {
-  color: var(--color-crimson-light);
-}
-
-.about__amp {
-  font-style: italic;
-  color: var(--color-champagne-muted);
-}
-
-.about__bio {
-  max-width: 30rem;
-  margin-top: var(--space-4);
-  color: var(--color-champagne-muted);
-  transition-delay: 100ms;
-}
-
-/* ---------- Numbers ---------- */
-.about__numbers {
+/* =========================================================
+   Part 1: two equal halves, edge to edge
+   ========================================================= */
+.about__split {
   display: grid;
-  grid-template-columns: repeat(4, auto);
-  justify-content: start;
-  margin-top: var(--space-4);
-  transition-delay: 200ms;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
 }
 
-.about__numbers div {
+/* ---------- Left half: photo panel ---------- */
+.about__figure {
   display: flex;
-  flex-direction: column-reverse; /* label first in HTML, shown under */
-  padding-inline: var(--space-3);
-  border-left: 1px solid var(--color-line-dark);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: clamp(4rem, 3rem + 4vw, 7rem) var(--gutter);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(224, 74, 98, 0.45), transparent 70%),
+    linear-gradient(170deg, var(--color-wine-700), var(--color-wine-900));
 }
 
-.about__numbers div:first-child {
+/* Arched photo with a thin outline arch offset behind it */
+.about__photo {
+  position: relative;
+  width: min(80%, 26rem);
+  aspect-ratio: 4 / 5;
+  border-radius: 999px 999px 1rem 1rem;
+}
+
+.about__photo::before {
+  content: "";
+  position: absolute;
+  inset: 1.25rem -1.25rem -1.25rem 1.25rem;
+  border: 1px solid rgba(236, 220, 196, 0.45);
+  border-radius: inherit;
+}
+
+.about__photo img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: inherit;
+  /* Soft blush inside the arch so it stands out from the wine panel */
+  background:
+    radial-gradient(ellipse at 50% 30%, #fff6ef, transparent 70%),
+    linear-gradient(180deg, #f7e2d8, #e9b9ae);
+  box-shadow: 0 40px 70px -35px rgba(0, 0, 0, 0.7);
+}
+
+.about__caption {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: calc(1.25rem + var(--space-4));
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-champagne-muted);
+}
+
+.about__caption span {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-champagne);
+}
+
+/* ---------- Right half: content ---------- */
+.about__text {
+  align-self: center;
+  max-width: 44rem;
+  padding: clamp(4rem, 3rem + 4vw, 7rem) clamp(1.5rem, 1rem + 4vw, 5rem);
+}
+
+.about__text .about__lead {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.3;
+  color: var(--color-bone-ink);
+}
+
+/* ---------- Numbers row ---------- */
+.about__stats {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  justify-content: space-between;
+  margin-top: var(--space-4);
+  padding-block: var(--space-3);
+  border-block: 1px solid var(--color-line-light);
+}
+
+/* Label comes first in the HTML (read as "Leaders: 1000+") but shows below */
+.about__stats div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end; /* numbers line up along the top */
+  padding-inline: var(--space-2);
+  border-left: 1px solid var(--color-line-light);
+}
+
+.about__stats div:first-child {
   padding-left: 0;
   border-left: none;
 }
 
-.about__numbers dd {
+.about__stats dd {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 1.2rem + 1.4vw, 2.6rem);
+  font-size: clamp(1.8rem, 1.2rem + 1.4vw, 2.75rem);
   font-style: italic;
   line-height: 1;
-  color: var(--color-crimson-light);
+  color: var(--color-crimson);
 }
 
-.about__numbers dt {
+.about__stats dt {
+  max-width: 8rem;
   margin-top: 0.5rem;
-  color: var(--color-champagne-muted);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--color-bone-muted);
 }
 
-/* ---------- Sign-off ---------- */
-.about__sign {
+.about__actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-5);
+  gap: var(--space-2);
   margin-top: var(--space-4);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-line-dark);
-  transition-delay: 300ms;
 }
 
-.about__signature {
+/* =========================================================
+   Part 2: one card with the rest of her bio
+   (crimson quote panel | white panel with two short blocks)
+   ========================================================= */
+.about__more {
+  padding-block: clamp(4rem, 3rem + 3vw, 6rem);
+  background-color: var(--color-bone);
+}
+
+.about__card {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  overflow: hidden;
+  border-radius: 2rem;
+  background-color: var(--color-white);
+  box-shadow: 0 40px 80px -50px rgba(92, 10, 26, 0.55);
+}
+
+/* ---------- Left: crimson quote panel ---------- */
+.about__quote-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
+    linear-gradient(155deg, #b81a36, var(--color-crimson) 50%, #5c0a1a);
+  color: var(--color-champagne);
+}
+
+.about__quote-mark {
+  height: 3.5rem;
   font-family: var(--font-display);
+  font-size: 7rem;
+  line-height: 1;
+  color: rgba(236, 220, 196, 0.45);
+}
+
+.about__highlight {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1rem + 1.2vw, 2.1rem);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.about__highlight em {
+  color: #ffd6dc;
+}
+
+/* ---------- Right: two short blocks ---------- */
+.about__columns {
+  display: grid;
+  align-content: center;
+  padding: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+}
+
+.about__columns > div {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  column-gap: var(--space-3);
+}
+
+.about__columns > div + div {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-line-light);
+}
+
+.about__num {
+  grid-row: span 2;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-style: italic;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-crimson);
+}
+
+.about__subhead {
   font-size: var(--text-xl);
   font-style: italic;
+  color: var(--color-crimson);
 }
 
-/* ---------- Her photo ---------- */
-.about__figure {
-  position: absolute;
-  z-index: 1;
-  right: 9vw;
-  bottom: 0;
-  height: 96%;
-  margin: 0;
+.about__columns p {
+  margin-top: var(--space-1);
+  color: var(--color-bone-text);
 }
 
-.about__figure img {
-  height: 100%;
-  width: auto;
-  max-width: none;
-  /* Soft fade into the floor so she doesn't end on a hard edge */
-  mask-image: linear-gradient(to bottom, #000 78%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent);
-}
-
-/* ---------- Tablet & phone: photo below the text ---------- */
-@media (max-width: 1000px) {
-  .about {
-    flex-direction: column;
-    align-items: stretch;
-    padding-bottom: 0;
+/* ---------- Tablet & phone ---------- */
+@media (max-width: 960px) {
+  .about__split {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
   }
 
   .about__text {
-    max-width: 40rem;
-  }
-
-  .about__backdrop {
-    top: auto;
-    bottom: 18vh;
-    right: auto;
-    left: -4vw;
-    font-size: 38vw;
-    transform: none;
-  }
-
-  .about__figure {
-    position: relative;
-    right: auto;
-    height: 58vh;
-    margin-top: var(--space-4);
-    align-self: center;
-    transform: none;
+    max-width: none;
+    padding-inline: var(--gutter);
   }
 }
 
-@media (max-width: 520px) {
-  .about__numbers {
-    grid-template-columns: repeat(2, auto);
+@media (max-width: 700px) {
+  .about__stats {
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
     row-gap: var(--space-3);
   }
 
-  .about__numbers div:nth-child(3) {
+  .about__stats div:nth-child(4) {
     padding-left: 0;
     border-left: none;
   }
-}
 
+  .about__card {
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: 1.5rem;
+  }
+
+  .about__columns > div {
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+  }
+}

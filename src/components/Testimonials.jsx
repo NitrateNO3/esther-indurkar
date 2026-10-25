@@ -1,8 +1,6 @@
-import portrait from '../assets/images/esther-portrait.webp'
 import './Testimonials.css'
 
 // All nine testimonials from the homepage, quoted exactly.
-// The first one is featured in the large crimson block.
 const TESTIMONIALS = [
   { quote: 'She is able to establish a deep connection with the audience.', name: 'Shuming', role: 'Director' },
   { quote: 'Ms. Esther’s sessions ignited a paradigm shift in my thinking. Truly transformative!', name: 'Chhabbi', role: 'Tech Lead' },
@@ -15,52 +13,55 @@ const TESTIMONIALS = [
   { quote: 'Team Esther’s sessions are a roadmap to success – a must-experience for anyone.', name: 'Kelly', role: 'Entrepreneur' },
 ]
 
-const [FEATURED, ...OTHERS] = TESTIMONIALS
+// Three columns of three quotes each
+const COLUMNS = [TESTIMONIALS.slice(0, 3), TESTIMONIALS.slice(3, 6), TESTIMONIALS.slice(6, 9)]
 
-// A one-screen "wall of praise": title, featured quote, portrait and
-// eight smaller quotes, placed on a grid (see grid-template-areas in CSS).
-function Testimonials() {
+// One endlessly scrolling column. Cards are rendered twice and the track
+// slides up by exactly half its height, so the loop has no visible seam.
+function QuoteColumn({ items, reverse }) {
   return (
-    <section className="praise" aria-labelledby="praise-title">
-      <div className="praise__grid container">
-        <header className="praise__title-cell" data-reveal>
-          <p className="caption">(06) — Clients talking</p>
-          <h2 id="praise-title" className="praise__title">
-            In their <em>words.</em>
-          </h2>
-        </header>
-
-        <figure className="praise__featured" data-reveal>
-          <blockquote>
-            <p>&ldquo;{FEATURED.quote}&rdquo;</p>
-          </blockquote>
-          <figcaption className="caption">
-            {FEATURED.name} — {FEATURED.role}
-          </figcaption>
-        </figure>
-
-        <div className="praise__portrait" aria-hidden="true">
-          <img src={portrait} alt="" loading="lazy" />
-        </div>
-
-        {/* On desktop this wrapper "disappears" (display: contents) so each
-            quote sits in its own grid cell; on phones it becomes a swipe strip. */}
-        <div className="praise__others">
-          {OTHERS.map((item, index) => (
-            <figure
-              key={item.name}
-              className={`praise__quote praise__quote--${index + 1}`}
-              data-reveal
-              style={{ '--i': index }}
-            >
-              <span className="praise__number">{String(index + 2).padStart(2, '0')}</span>
+    <div className={`voices-col ${reverse ? 'voices-col--reverse' : ''}`}>
+      <ul className="voices-col__track">
+        {[...items, ...items].map((item, index) => (
+          <li key={index} className="voice-card" aria-hidden={index >= items.length}>
+            <figure>
               <blockquote>
                 <p>&ldquo;{item.quote}&rdquo;</p>
               </blockquote>
-              <figcaption className="caption">
-                <span>{item.name}</span> — {item.role}
+              <figcaption>
+                <span className="voice-card__initial" aria-hidden="true">
+                  {item.name[0]}
+                </span>
+                <span>
+                  <strong>{item.name}</strong>
+                  {item.role}
+                </span>
               </figcaption>
             </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function Testimonials() {
+  return (
+    <section className="voices section" aria-labelledby="voices-title">
+      <div className="voices__inner container">
+        <header className="voices__intro" data-reveal>
+          <h2 id="voices-title" className="section-title">
+            Clients <em>talking</em>
+          </h2>
+          <p className="voices__note">
+            Directors, HR heads, sales leaders, tech leads and entrepreneurs on
+            Esther&rsquo;s sessions and keynotes.
+          </p>
+        </header>
+
+        <div className="voices__columns" data-reveal>
+          {COLUMNS.map((items, index) => (
+            <QuoteColumn key={index} items={items} reverse={index === 1} />
           ))}
         </div>
       </div>

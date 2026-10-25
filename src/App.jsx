@@ -2,11 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import Loader from './components/Loader.jsx'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
+import Credentials from './components/Credentials.jsx'
 import About from './components/About.jsx'
-import Duality from './components/Duality.jsx'
 import Services from './components/Services.jsx'
-import Impact from './components/Impact.jsx'
-import Talks from './components/Talks.jsx'
+import Clients from './components/Clients.jsx'
 import Testimonials from './components/Testimonials.jsx'
 import ProjectHope from './components/ProjectHope.jsx'
 import Contact from './components/Contact.jsx'
@@ -65,11 +64,10 @@ function App() {
       <Navbar />
       <main id="main">
         <Hero isReady={isHeroReady} />
+        <Credentials />
         <About />
-        <Duality />
         <Services />
-        <Impact />
-        <Talks />
+        <Clients />
         <Testimonials />
         <ProjectHope />
         <Contact />
