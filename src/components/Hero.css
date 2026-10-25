@@ -1,0 +1,401 @@
+.hero {
+  --mx: 0;
+  --my: 0;
+  position: relative;
+  height: 100svh;
+  min-height: 40rem;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 55%, rgba(163, 22, 47, 0.55), transparent 70%),
+    radial-gradient(ellipse at 50% 100%, var(--color-wine-700), transparent 60%),
+    var(--color-ink);
+}
+
+/* Fade to black at the bottom so corner text stays readable */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 35%;
+  background: linear-gradient(transparent, rgba(12, 6, 7, 0.85));
+  pointer-events: none;
+}
+
+.hero__stage {
+  position: absolute;
+  inset: 0;
+}
+
+/* Each layer follows the mouse by a different amount, for depth.
+   Nothing moves on scroll: the hero leaves the screen as one piece. */
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  transition: translate 1.2s var(--ease-out);
+}
+
+.hero__layer--back {
+  translate: calc(var(--mx) * -18px) calc(var(--my) * -10px);
+}
+
+.hero__layer--photo {
+  z-index: 1;
+  translate: calc(var(--mx) * 10px) calc(var(--my) * 6px);
+}
+
+.hero__layer--front {
+  z-index: 2;
+  translate: calc(var(--mx) * 34px) calc(var(--my) * 18px);
+}
+
+/* ---------- "Harness the power of / MIND" (behind her) ---------- */
+.hero__kicker {
+  position: absolute;
+  top: calc(var(--nav-height) + 2vh);
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 0.85rem + 1.3vw, 2.2rem);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 1s ease 0.6s;
+}
+
+/* Fine lines either side of the kicker */
+.hero__kicker::before,
+.hero__kicker::after {
+  content: "";
+  width: clamp(1.5rem, 1rem + 2vw, 3.5rem);
+  height: 1px;
+  background-color: rgba(236, 220, 196, 0.5);
+}
+
+.hero__mind {
+  position: absolute;
+  top: calc(var(--nav-height) + 9vh);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: clamp(9rem, 2rem + 27vw, 34rem);
+  font-weight: 500;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-champagne);
+}
+
+/* Letters rise into view one by one */
+.hero__mind span {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 1.4s var(--ease-out);
+  transition-delay: calc(0.1s + var(--i) * 0.09s);
+}
+
+/* ---------- Photo ---------- */
+/* Centred with left/right 0 + auto margins. (A `translate` here gets
+   dropped by the CSS minifier because this rule also sets `transform`.) */
+.hero__photo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 92%;
+  width: auto;
+  max-width: none;
+  margin-inline: auto;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(6%);
+  transition:
+    opacity 1.4s ease 0.3s,
+    filter 1.4s ease 0.3s,
+    transform 1.8s var(--ease-out) 0.3s;
+}
+
+/* ---------- "& Emotions" (in front of her) ---------- */
+.hero__emotions {
+  position: absolute;
+  bottom: 27%; /* sits above the corner text */
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 1rem + 11vw, 13rem);
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  color: var(--color-crimson-light);
+  text-shadow: 0 10px 40px rgba(12, 6, 7, 0.45);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.6s var(--ease-in-out) 0.9s;
+}
+
+/* ---------- Corners ---------- */
+.hero__corner {
+  position: absolute;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 1s ease 1.4s;
+}
+
+/* Small tracked capitals used for labels in the corners */
+.hero__meta {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-champagne-muted);
+}
+
+.hero__corner--tl {
+  top: calc(var(--nav-height) + 0.75rem);
+  left: var(--gutter);
+}
+
+/* Kept to two short lines so it clears the top of "MIND" */
+.hero__roles {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 0.85rem + 0.25vw, 1.1rem);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* TEDx highlight: a glowing crimson pill with a pulsing play button */
+.hero__corner--tr {
+  top: calc(var(--nav-height) + 1.25rem);
+  right: var(--gutter);
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.9rem;
+  row-gap: 0.2rem;
+  align-items: center;
+  padding: 0.5rem 1.4rem 0.5rem 0.5rem;
+  border: 1px solid rgba(236, 220, 196, 0.25);
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(120deg, #c41f3c, var(--color-crimson) 55%, #6d0c1f);
+  box-shadow:
+    0 0 0 6px rgba(163, 22, 47, 0.18),
+    0 18px 40px -12px rgba(163, 22, 47, 0.75);
+  transition:
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+
+.hero__corner--tr:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 8px rgba(163, 22, 47, 0.25),
+    0 24px 50px -12px rgba(163, 22, 47, 0.9);
+}
+
+.hero__corner--tr .hero__meta {
+  color: var(--color-champagne);
+  letter-spacing: 0.24em;
+}
+
+/* Champagne play button with a soft ring pulsing outwards */
+.hero__play {
+  position: relative;
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-champagne);
+  color: var(--color-crimson);
+  font-size: 0.7rem;
+  padding-left: 2px; /* optically centre the ▶ */
+  transition: transform 0.5s var(--ease-out);
+}
+
+.hero__play::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-champagne);
+  animation: play-pulse 2.2s ease-out infinite;
+}
+
+@keyframes play-pulse {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.hero__corner--tr:hover .hero__play {
+  transform: scale(1.08);
+}
+
+.hero__watch {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 0.9rem + 0.4vw, 1.3rem);
+  font-style: italic;
+  line-height: 1;
+  color: var(--color-champagne);
+}
+
+.hero__corner--bl {
+  bottom: var(--space-5);
+  left: var(--gutter);
+  max-width: 21rem;
+}
+
+.hero__lead {
+  margin-bottom: var(--space-3);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-champagne-muted);
+}
+
+/* Solid champagne pill that turns crimson on hover */
+.hero__cta {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.6rem;
+  border-radius: 999px;
+  background-color: var(--color-champagne);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.hero__cta span {
+  transition: transform 0.5s var(--ease-out);
+}
+
+.hero__cta:hover {
+  background-color: var(--color-crimson);
+  color: var(--color-champagne);
+}
+
+.hero__cta:hover span {
+  transform: translateX(4px);
+}
+
+.hero__corner--br {
+  right: var(--gutter);
+  bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hero__scroll-line {
+  position: relative;
+  width: 1px;
+  height: 4rem;
+  overflow: hidden;
+  background-color: var(--color-line-dark);
+}
+
+.hero__scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-champagne);
+  animation: scroll-drop 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes scroll-drop {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+/* ---------- Entrance ---------- */
+.hero.is-ready .hero__mind span { transform: none; }
+.hero.is-ready .hero__kicker { opacity: 1; }
+.hero.is-ready .hero__photo { opacity: 1; filter: none; transform: none; }
+.hero.is-ready .hero__emotions { clip-path: inset(0 0 0 0); }
+.hero.is-ready .hero__corner { opacity: 1; }
+
+/* ---------- Tablet & mobile ---------- */
+@media (max-width: 860px) {
+  .hero__mind {
+    top: calc(var(--nav-height) + 12vh);
+    font-size: 33vw;
+  }
+
+  .hero__kicker {
+    top: calc(var(--nav-height) + 7vh);
+  }
+
+  .hero__photo {
+    height: 74%;
+    bottom: 12%;
+  }
+
+  .hero__emotions {
+    bottom: 30%;
+    font-size: 15vw;
+  }
+
+  .hero__corner--tl {
+    display: none;
+  }
+
+  .hero__corner--br,
+  .hero__corner--tr {
+    display: none;
+  }
+
+  .hero__corner--bl {
+    bottom: var(--space-4);
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  .hero__lead {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__mind span,
+  .hero__photo {
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
+
+  .hero__kicker,
+  .hero__corner {
+    opacity: 1;
+  }
+
+  .hero__emotions {
+    clip-path: none;
+  }
+
+  .hero__layer {
+    translate: none;
+    transform: none;
+  }
+}

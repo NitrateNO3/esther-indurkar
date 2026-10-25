@@ -1,0 +1,238 @@
+/* One screen on ivory: a magazine-style wall of all nine quotes */
+.praise {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + var(--space-3)) 0 var(--space-4);
+  background-color: var(--color-bone);
+  color: var(--color-bone-ink);
+}
+
+/* 5 columns × 3 rows. Each name below is a cell on this map:
+   t = title, f = featured quote, p = portrait, 1–8 = the other quotes */
+.praise__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    "t f f q1 p"
+    "q2 f f q3 p"
+    "q4 q5 q6 q7 q8";
+  gap: clamp(0.75rem, 0.4rem + 0.8vw, 1.25rem);
+  height: min(calc(100vh - var(--nav-height) - 5rem), 50rem);
+}
+
+.praise__title-cell { grid-area: t; }
+.praise__featured { grid-area: f; }
+.praise__portrait { grid-area: p; }
+.praise__quote--1 { grid-area: q1; }
+.praise__quote--2 { grid-area: q2; }
+.praise__quote--3 { grid-area: q3; }
+.praise__quote--4 { grid-area: q4; }
+.praise__quote--5 { grid-area: q5; }
+.praise__quote--6 { grid-area: q6; }
+.praise__quote--7 { grid-area: q7; }
+.praise__quote--8 { grid-area: q8; }
+
+/* ---------- Title ---------- */
+.praise__title-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-1) 0;
+}
+
+.praise__title-cell .caption {
+  color: var(--color-bone-muted);
+}
+
+.praise__title {
+  font-size: clamp(2.5rem, 1.4rem + 3vw, 4.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+.praise__title em {
+  color: var(--color-crimson);
+}
+
+/* ---------- Featured quote ---------- */
+.praise__featured {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2.75rem);
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(255, 255, 255, 0.16), transparent 50%),
+    linear-gradient(150deg, var(--color-crimson), #5c0a1a);
+  color: var(--color-champagne);
+}
+
+.praise__featured blockquote {
+  margin: 0;
+}
+
+.praise__featured p {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1rem + 2.6vw, 3.9rem);
+  font-style: italic;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.praise__featured .caption {
+  opacity: 0.8;
+}
+
+/* ---------- Portrait ---------- */
+.praise__portrait {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px 999px 0 0;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(224, 74, 98, 0.55), transparent 65%),
+    linear-gradient(180deg, var(--color-wine-700), var(--color-wine-900));
+}
+
+.praise__portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 8%;
+}
+
+/* ---------- Smaller quotes ---------- */
+.praise__others {
+  display: contents;
+}
+
+.praise__quote {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: clamp(0.9rem, 0.6rem + 0.6vw, 1.35rem);
+  border-top: 1px solid var(--color-bone-ink);
+  transition:
+    opacity 0.5s ease,
+    color 0.5s ease;
+  transition-delay: calc(var(--i) * 60ms), 0s, 0s;
+}
+
+.praise__number {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  color: var(--color-crimson);
+}
+
+.praise__quote blockquote {
+  margin: auto 0 0;
+}
+
+.praise__quote p {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 0.75rem + 0.55vw, 1.3rem);
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.praise__quote .caption {
+  margin-top: 0.75rem;
+  color: var(--color-bone-muted);
+}
+
+.praise__quote .caption span {
+  color: var(--color-bone-ink);
+}
+
+/* Hovering one quote softens the others */
+.praise__grid:hover .praise__quote {
+  opacity: 0.45;
+}
+
+.praise__grid .praise__quote:hover {
+  opacity: 1;
+  color: var(--color-crimson);
+}
+
+/* ---------- Tablet: 3 columns, natural height ---------- */
+@media (max-width: 1100px) {
+  .praise__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-template-areas:
+      "t f f"
+      "p f f"
+      "p q1 q2"
+      "q3 q4 q5"
+      "q6 q7 q8";
+    height: auto;
+  }
+
+  .praise__quote {
+    min-height: 12rem;
+  }
+
+  .praise__portrait {
+    min-height: 18rem;
+  }
+}
+
+/* ---------- Phone: single column ---------- */
+@media (max-width: 640px) {
+  .praise {
+    padding-block: var(--space-section);
+  }
+
+  .praise__grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "t"
+      "f"
+      "o";
+  }
+
+  /* The eight smaller quotes become one swipeable strip */
+  .praise__others {
+    grid-area: o;
+    display: flex;
+    gap: 1rem;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter); /* snapped cards keep the side margin */
+    scrollbar-width: none;
+  }
+
+  .praise__others::-webkit-scrollbar {
+    display: none;
+  }
+
+  .praise__others .praise__quote {
+    grid-area: auto;
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  .praise__title-cell {
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .praise__featured {
+    min-height: 18rem;
+  }
+
+  .praise__portrait {
+    display: none;
+  }
+
+  .praise__quote {
+    min-height: 0;
+    gap: 0.5rem;
+  }
+}

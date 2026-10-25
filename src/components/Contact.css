@@ -1,0 +1,142 @@
+/* The crimson finale */
+.contact {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-block: clamp(4rem, 2.5rem + 5vw, 7rem);
+  background:
+    radial-gradient(ellipse at 80% 100%, #d22a46, transparent 55%),
+    linear-gradient(160deg, #8a1027, var(--color-crimson) 45%, #5c0a1a);
+  color: var(--color-champagne);
+}
+
+/* Her photo, large and faint, bleeding off the right edge */
+.contact__photo {
+  position: absolute;
+  right: -4%;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  opacity: 0.22;
+  mix-blend-mode: luminosity;
+  pointer-events: none;
+}
+
+.contact__inner {
+  position: relative;
+}
+
+.contact__title {
+  max-width: 12ch;
+  margin-top: var(--space-3);
+  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 6.25rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+}
+
+.contact__title em {
+  display: block;
+}
+
+.contact__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.contact__details {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Email set large with an underline that draws on hover */
+.contact__email {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 0.8rem + 2.2vw, 2.75rem);
+  font-style: italic;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% 1px;
+  transition: background-size 0.8s var(--ease-out);
+}
+
+.contact__email:hover {
+  background-size: 100% 1px;
+}
+
+.contact__phone {
+  opacity: 0.8;
+}
+
+.contact__downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+/* ---------- Rotating badge ---------- */
+.contact__badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(7.5rem, 6rem + 4vw, 10rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--color-champagne);
+  color: var(--color-ink);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.contact__badge:hover {
+  transform: scale(1.08);
+}
+
+.contact__badge svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: spin 18s linear infinite;
+}
+
+.contact__badge:hover svg {
+  animation-duration: 6s;
+}
+
+.contact__badge text {
+  font-family: var(--font-mono);
+  font-size: 13.2px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  fill: currentColor;
+}
+
+.contact__badge-arrow {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  line-height: 1;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.contact__badge:hover .contact__badge-arrow {
+  transform: rotate(45deg);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .contact__photo {
+    height: 60%;
+    right: -20%;
+  }
+}

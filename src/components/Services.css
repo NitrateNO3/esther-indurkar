@@ -1,0 +1,408 @@
+/* Ivory "menu card" after the crimson Emotions panel.
+   Everything fits in one screen: photo left, list + detail right. */
+.services {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding: calc(var(--nav-height) + var(--space-2)) 0 var(--space-3);
+  background-color: var(--color-sand);
+  color: var(--color-bone-ink);
+}
+
+.services__layout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(2rem, 1rem + 4.5vw, 6rem);
+  align-items: center;
+}
+
+/* ---------- Arched photo frame ---------- */
+.services__frame {
+  margin: 0;
+}
+
+.services__arch {
+  position: relative;
+  height: min(76vh, 48rem);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 999px 999px 0 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(224, 74, 98, 0.6), transparent 65%),
+    linear-gradient(180deg, var(--color-wine-700), var(--color-wine-900));
+  box-shadow: 0 50px 90px -40px rgba(92, 10, 26, 0.55);
+}
+
+/* Photos crossfade; the incoming one settles from a slight zoom */
+.services__arch img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 10%;
+  opacity: 0;
+  transform: scale(1.08);
+  transition:
+    opacity 0.7s ease,
+    transform 1.2s var(--ease-out);
+}
+
+.services__arch img.is-active {
+  opacity: 1;
+  transform: none;
+}
+
+.services__frame-caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-bone-ink);
+}
+
+.services__frame-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  animation: fade-up 0.6s var(--ease-out);
+}
+
+.services__frame-caption .caption {
+  color: var(--color-bone-muted);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+/* ---------- Heading ---------- */
+.services__header .caption {
+  color: var(--color-bone-muted);
+}
+
+.services__title {
+  margin-top: var(--space-2);
+  font-size: clamp(2.5rem, 1.4rem + 3.2vw, 4.75rem);
+  letter-spacing: -0.035em;
+}
+
+.services__title em {
+  color: var(--color-crimson);
+}
+
+/* ---------- Compact list ---------- */
+.services__list {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--color-bone-ink);
+}
+
+.services__list li {
+  border-bottom: 1px solid var(--color-line-light);
+}
+
+.service {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: clamp(0.45rem, 0.2rem + 0.75vh, 0.8rem) 0.75rem;
+  text-align: left;
+  transition: background-color 0.5s ease;
+}
+
+/* Thin crimson bar on the left of the active row */
+.service::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 2px;
+  background-color: var(--color-crimson);
+  transform: scaleY(0);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.service:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.service.is-active {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.service.is-active::before {
+  transform: scaleY(1);
+}
+
+/* Roman numeral inside a fine circle; fills crimson when active */
+.service__numeral {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding-right: 0.1em; /* optically centre the italic */
+  border: 1px solid rgba(31, 12, 16, 0.25);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-style: italic;
+  color: var(--color-bone-muted);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.service.is-active .service__numeral {
+  background-color: var(--color-crimson);
+  border-color: var(--color-crimson);
+  color: var(--color-champagne);
+}
+
+/* Title with its tag directly underneath */
+.service__name {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.service__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 1rem + 1.55vw, 2.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  transition: color 0.4s ease;
+}
+
+.service.is-active .service__title {
+  font-style: italic;
+  color: var(--color-crimson);
+}
+
+.service__tag {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-bone-muted);
+}
+
+/* Arrow slides in on the active row */
+.service__arrow {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--color-crimson);
+  opacity: 0;
+  transform: translateX(-0.75rem);
+  transition:
+    opacity 0.4s ease,
+    transform 0.5s var(--ease-out);
+}
+
+.service.is-active .service__arrow {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Detail area (fixed height, content fades in) ---------- */
+.services__detail {
+  min-height: 10.5rem;
+  margin-top: var(--space-3);
+  padding-left: calc(0.75rem + 2.6rem + var(--space-2));
+}
+
+.services__detail-inner {
+  display: grid;
+  gap: var(--space-3);
+  animation: fade-up 0.6s var(--ease-out);
+}
+
+.services__text {
+  max-width: 40rem;
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: #4a3538;
+}
+
+.services__detail-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.services__points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.services__points li {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-line-light);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-style: italic;
+}
+
+/* Labelled facts: three short columns divided by fine lines */
+.services__facts {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+}
+
+.services__facts div {
+  padding-inline: var(--space-3);
+  border-left: 1px solid var(--color-line-light);
+}
+
+.services__facts div:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+.services__facts dt {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-crimson);
+}
+
+.services__facts dd {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  line-height: 1.2;
+}
+
+.services__detail .line-link {
+  color: var(--color-crimson);
+}
+
+/* ---------- Shorter laptop screens: tighten so it still fits ---------- */
+@media (min-width: 961px) and (max-height: 820px) {
+  .services {
+    padding: calc(var(--nav-height) + var(--space-1)) 0 var(--space-3);
+  }
+
+  .services__arch {
+    height: min(70vh, 38rem);
+  }
+
+  .services__title {
+    margin-top: var(--space-1);
+    font-size: clamp(2.25rem, 1.2rem + 2.6vw, 3.5rem);
+  }
+
+  .services__list {
+    margin-top: var(--space-3);
+  }
+
+  .service {
+    padding-block: 0.3rem;
+  }
+
+  .service__numeral {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .service__title {
+    font-size: clamp(1.45rem, 0.9rem + 1.4vw, 2.05rem);
+  }
+
+  .services__detail {
+    min-height: 9.5rem;
+    margin-top: var(--space-3);
+  }
+
+  .services__detail-inner {
+    gap: var(--space-2);
+  }
+
+  .services__text {
+    font-size: var(--text-sm);
+  }
+}
+
+/* ---------- Tablet & phone ---------- */
+@media (max-width: 960px) {
+  .services {
+    padding-block: var(--space-section);
+  }
+
+  .services__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Small portrait beside the heading rather than a tall arch */
+  .services__frame {
+    display: none;
+  }
+
+  .service__tag {
+    display: none;
+  }
+
+  .services__detail {
+    padding-left: 0;
+  }
+
+  /* Keep phones to one screen: slightly smaller type than desktop */
+  .services__title {
+    font-size: clamp(2.1rem, 1.5rem + 3vw, 2.75rem);
+  }
+
+  .service {
+    padding-block: 0.4rem;
+  }
+
+  .service__numeral {
+    width: 2.1rem;
+    height: 2.1rem;
+    font-size: var(--text-sm);
+  }
+
+  .service__title {
+    font-size: clamp(1.3rem, 1rem + 1.5vw, 1.7rem);
+  }
+
+  .services__text {
+    font-size: var(--text-base);
+  }
+
+  .services__points li {
+    font-size: var(--text-sm);
+  }
+
+  /* Phones: facts stack, each with a crimson rule on the left */
+  .services__facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .services__facts div,
+  .services__facts div:first-child {
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--color-crimson);
+  }
+
+  .services__facts dd {
+    font-size: var(--text-base);
+  }
+}

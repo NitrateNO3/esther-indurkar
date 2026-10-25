@@ -1,0 +1,194 @@
+/* Two panels side by side. Hovering (or focusing) one widens it. */
+.duality {
+  display: flex;
+  min-height: 100vh;
+}
+
+.panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nav-height) + var(--space-4)) clamp(1.5rem, 1rem + 3vw, 4rem) 0;
+  outline: none;
+  transition: flex-grow 1s var(--ease-out);
+}
+
+.duality:hover .panel:hover,
+.panel:focus-visible {
+  flex-grow: 1.45;
+}
+
+/* ---------- The two moods ---------- */
+.panel--mind {
+  z-index: 2; /* keeps the "&" above the Emotions panel */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 85%, #ffffff, transparent 70%),
+    var(--color-bone);
+  color: var(--color-bone-ink);
+}
+
+.panel--emotions {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 85%, #d0263f, transparent 70%),
+    linear-gradient(170deg, #7a0e22, var(--color-crimson) 55%, #5c0a1a);
+  color: var(--color-champagne);
+  text-align: right;
+}
+
+/* ---------- Text ---------- */
+.panel__text {
+  position: relative;
+  z-index: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* The panel that isn't hovered quietly steps back */
+.duality:hover .panel:not(:hover) .panel__text {
+  opacity: 0.55;
+}
+
+.panel__caption {
+  opacity: 0.6;
+}
+
+.panel__title {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-size: clamp(3.75rem, 1rem + 7vw, 8.5rem);
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+
+.panel--emotions .panel__title {
+  font-style: italic;
+}
+
+.panel__line {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  opacity: 0.75;
+}
+
+.panel__pillars {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: var(--space-4);
+  counter-reset: pillar;
+}
+
+.panel__pillars li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.panel--emotions .panel__pillars li {
+  justify-content: flex-end;
+}
+
+/* Small crimson dash before each pillar (after, on the right panel) */
+.panel--mind .panel__pillars li::before,
+.panel--emotions .panel__pillars li::after {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.5;
+}
+
+/* ---------- Photo ---------- */
+.panel__photo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62%;
+  width: auto;
+  max-width: none;
+  margin-inline: auto;
+  transition: transform 1.2s var(--ease-out);
+  transform-origin: 50% 100%;
+}
+
+.duality:hover .panel:hover .panel__photo,
+.panel:focus-visible .panel__photo {
+  transform: scale(1.06);
+}
+
+/* ---------- The "&" medallion on the seam ---------- */
+.duality__amp {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: clamp(6rem, 4rem + 4vw, 9rem);
+  aspect-ratio: 1;
+  padding-bottom: 0.12em;
+  border-radius: 50%;
+  background-color: var(--color-ink);
+  color: var(--color-champagne);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 2rem + 2.5vw, 5rem);
+  font-style: italic;
+  line-height: 1;
+  transform: translate(50%, -50%);
+  box-shadow:
+    0 0 0 1px rgba(236, 220, 196, 0.25),
+    0 0 0 0.6rem rgba(12, 6, 7, 0.08),
+    0 30px 60px -20px rgba(12, 6, 7, 0.6);
+}
+
+/* ---------- Phone: panels stacked, "&" on the horizontal seam ---------- */
+@media (max-width: 760px) {
+  .duality {
+    flex-direction: column;
+  }
+
+  .panel {
+    min-height: 88vh;
+    padding-top: var(--space-6);
+  }
+
+  .panel--emotions {
+    text-align: left;
+  }
+
+  .panel--emotions .panel__pillars li {
+    justify-content: flex-start;
+  }
+
+  .panel--emotions .panel__pillars li::after {
+    display: none;
+  }
+
+  .panel--emotions .panel__pillars li::before {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.5;
+  }
+
+  .panel__photo {
+    height: 55%;
+  }
+
+  .duality__amp {
+    top: auto;
+    bottom: 0;
+    right: 50%;
+    transform: translate(50%, 50%);
+  }
+}

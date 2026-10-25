@@ -1,0 +1,165 @@
+/* One screen: headline, four big numbers, credentials line */
+.impact {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: calc(var(--nav-height) + var(--space-3)) 0 var(--space-5);
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 55%, rgba(163, 22, 47, 0.42), transparent 70%),
+    var(--color-ink);
+  text-align: center;
+}
+
+/* A single fine ring circling the centre, slowly turning */
+.impact__ring {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: min(82vh, 52rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(236, 220, 196, 0.12);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* A tiny crimson dot travels around the ring */
+.impact__ring::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background-color: var(--color-crimson-light);
+  box-shadow: 0 0 18px var(--color-crimson-light);
+  transform-origin: 4px calc(min(41vh, 26rem) + 4px);
+  animation: orbit 14s linear infinite;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.impact__inner {
+  position: relative;
+  display: grid;
+  gap: clamp(3rem, 2rem + 4vh, 6rem);
+}
+
+/* ---------- Headline ---------- */
+.impact__header .caption {
+  color: var(--color-champagne-muted);
+}
+
+.impact__title {
+  max-width: 18ch;
+  margin: var(--space-3) auto 0;
+  font-size: clamp(2.25rem, 1.3rem + 2.8vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.impact__title em {
+  color: var(--color-crimson-light);
+}
+
+/* ---------- Numbers ---------- */
+.impact__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Label is first in the HTML (read as "Leaders: 1,000+") but shown below */
+.impact__stat {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  padding-inline: var(--space-2);
+  border-left: 1px solid var(--color-line-dark);
+  transition-delay: calc(var(--i) * 120ms);
+}
+
+.impact__stat:first-child {
+  border-left: none;
+}
+
+.impact__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 1.25rem + 4.9vw, 7.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-variant-numeric: lining-nums tabular-nums;
+  /* sturdier hairlines at this size (see About counter) */
+  font-variation-settings: "opsz" 24;
+  white-space: nowrap;
+}
+
+.impact__plus {
+  font-style: italic;
+  color: var(--color-crimson-light);
+}
+
+.impact__label {
+  margin-top: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  color: var(--color-champagne-muted);
+}
+
+/* ---------- Credentials line ---------- */
+.impact__credentials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line-dark);
+  color: var(--color-champagne-muted);
+}
+
+.impact__credentials li + li::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-inline: 1.1rem;
+  vertical-align: 0.15em;
+  background-color: var(--color-crimson-light);
+  transform: rotate(45deg);
+}
+
+/* ---------- Phone: numbers in a 2 × 2 grid ---------- */
+@media (max-width: 760px) {
+  .impact__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-5);
+  }
+
+  .impact__stat:nth-child(3) {
+    border-left: none;
+  }
+
+  .impact__credentials {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .impact__credentials li + li::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .impact__ring::after {
+    display: none;
+  }
+}
