@@ -1,6 +1,6 @@
 /* Soft blush section holding one card: wine panel | white form */
 .contact {
-  padding-block: clamp(4rem, 3rem + 3vw, 6rem);
+  padding-block: var(--space-section);
   background: linear-gradient(175deg, #f7e6dc, #f0cfc5);
   color: var(--color-bone-ink);
 }

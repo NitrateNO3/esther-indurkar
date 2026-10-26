@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: clamp(4rem, 3rem + 4vw, 7rem) var(--gutter);
+  padding: var(--space-section) var(--gutter);
   background:
     radial-gradient(ellipse 70% 55% at 50% 45%, rgba(224, 74, 98, 0.45), transparent 70%),
     linear-gradient(170deg, var(--color-wine-700), var(--color-wine-900));
@@ -107,7 +107,7 @@
 .about__text {
   align-self: center;
   max-width: 44rem;
-  padding: clamp(4rem, 3rem + 4vw, 7rem) clamp(1.5rem, 1rem + 4vw, 5rem);
+  padding: var(--space-section) clamp(1.5rem, 1rem + 4vw, 5rem);
 }
 
 .about__text .about__lead {
@@ -174,7 +174,7 @@
    (crimson quote panel | white panel with two short blocks)
    ========================================================= */
 .about__more {
-  padding-block: clamp(4rem, 3rem + 3vw, 6rem);
+  padding-block: var(--space-section);
   background-color: var(--color-bone);
 }
 
@@ -271,7 +271,7 @@
   }
 
   .about__figure {
-    padding-block: var(--space-6) var(--space-5);
+    padding-block: var(--space-section);
   }
 
   /* The photo's faded legs already leave room, so less gap above the name */

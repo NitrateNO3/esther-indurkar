@@ -61,7 +61,7 @@
   --space-5: 3rem;
   --space-6: 4rem;
   --space-7: 6rem;
-  --space-section: clamp(4rem, 2rem + 6vw, 8rem);
+  --space-section: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); /* top and bottom of every section */
 
   /* ---------- Layout ---------- */
   --container-max: 86rem;

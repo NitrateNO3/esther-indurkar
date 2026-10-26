@@ -1,6 +1,6 @@
 /* Compact: one card that fits on a single screen */
 .hope {
-  padding-block: clamp(4rem, 3rem + 3vw, 6rem);
+  padding-block: var(--space-section);
   background: var(--color-bone);
   color: var(--color-bone-ink);
 }

@@ -8,11 +8,6 @@
   color: var(--color-bone-ink);
 }
 
-/* Less room above the title than other sections */
-.services.section {
-  padding-top: clamp(3rem, 2rem + 3vw, 5rem);
-}
-
 /* Keep the content above the outlined word */
 .services > .container {
   position: relative;
