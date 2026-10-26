@@ -298,6 +298,14 @@ em {
   background-color: #8a1027;
 }
 
+/* Tighter on phones so labels don't wrap */
+@media (max-width: 480px) {
+  .pill {
+    padding: 0.9rem 1.3rem;
+    letter-spacing: 0.1em;
+  }
+}
+
 .pill--outline {
   color: var(--color-crimson);
 }

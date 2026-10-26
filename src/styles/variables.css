@@ -16,6 +16,10 @@
   --color-wine-700: #461420;     /* glows, borders on dark */
   --color-crimson: #a3162f;      /* the one strong accent */
   --color-crimson-light: #e04a62; /* crimson for small text on dark (AA) */
+  --color-gold: #e8be5c;         /* matches the I.ESTHER logo */
+  --color-gold-light: #f6dc9c;   /* gold hover state */
+  --color-gold-muted: rgba(232, 190, 92, 0.72);
+  --color-line-gold: rgba(232, 190, 92, 0.3);
   --color-champagne: #ecdcc4;    /* text on dark */
   --color-champagne-muted: rgba(236, 220, 196, 0.62);
   --color-bone: #f3ece2;         /* light sections */
@@ -36,7 +40,7 @@
   --color-line-light: rgba(31, 12, 16, 0.16);
 
   /* ---------- Typography ---------- */
-  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-display: "Playfair Display", Georgia, serif;
   --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
@@ -57,7 +61,7 @@
   --space-5: 3rem;
   --space-6: 4rem;
   --space-7: 6rem;
-  --space-section: clamp(6rem, 3rem + 9vw, 11rem);
+  --space-section: clamp(4rem, 2rem + 6vw, 8rem);
 
   /* ---------- Layout ---------- */
   --container-max: 86rem;

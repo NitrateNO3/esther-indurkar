@@ -8,22 +8,9 @@
   color: var(--color-bone-ink);
 }
 
-/* Huge faint outlined word behind the cards */
-.services::before {
-  content: "Services";
-  position: absolute;
-  left: 50%;
-  bottom: -0.2em;
-  font-family: var(--font-display);
-  font-size: clamp(8rem, 3rem + 18vw, 22rem);
-  font-style: italic;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(163, 22, 47, 0.12);
-  transform: translateX(-50%);
-  pointer-events: none;
+/* Less room above the title than other sections */
+.services.section {
+  padding-top: clamp(3rem, 2rem + 3vw, 5rem);
 }
 
 /* Keep the content above the outlined word */
@@ -32,7 +19,28 @@
 }
 
 .services__title {
+  position: relative;
+  isolation: isolate;
   text-align: center;
+}
+
+/* Large faint outlined word behind the title, its bottom lined up with
+   the title's so it rises above it instead of running into the cards */
+.services__title::before {
+  content: "Our Services";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: -1;
+  font-size: min(13vw, 8rem);
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(163, 22, 47, 0.18);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 /* Four tall cards in a row */
@@ -40,7 +48,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-3);
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
 }
 
 .services__grid > li {
@@ -192,7 +200,16 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .services__grid {
+    margin-top: var(--space-3);
+  }
+
   .service-card {
     min-height: 0;
+    padding-top: var(--space-3);
+  }
+
+  .service-card__title {
+    margin-top: var(--space-3);
   }
 }

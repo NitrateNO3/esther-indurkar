@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import './Testimonials.css'
 
 // All nine testimonials from the homepage, quoted exactly.
@@ -13,39 +14,26 @@ const TESTIMONIALS = [
   { quote: 'Team Esther’s sessions are a roadmap to success – a must-experience for anyone.', name: 'Kelly', role: 'Entrepreneur' },
 ]
 
-// Three columns of three quotes each
-const COLUMNS = [TESTIMONIALS.slice(0, 3), TESTIMONIALS.slice(3, 6), TESTIMONIALS.slice(6, 9)]
-
-// One endlessly scrolling column. Cards are rendered twice and the track
-// slides up by exactly half its height, so the loop has no visible seam.
-function QuoteColumn({ items, reverse }) {
-  return (
-    <div className={`voices-col ${reverse ? 'voices-col--reverse' : ''}`}>
-      <ul className="voices-col__track">
-        {[...items, ...items].map((item, index) => (
-          <li key={index} className="voice-card" aria-hidden={index >= items.length}>
-            <figure>
-              <blockquote>
-                <p>&ldquo;{item.quote}&rdquo;</p>
-              </blockquote>
-              <figcaption>
-                <span className="voice-card__initial" aria-hidden="true">
-                  {item.name[0]}
-                </span>
-                <span>
-                  <strong>{item.name}</strong>
-                  {item.role}
-                </span>
-              </figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
 function Testimonials() {
+  const trackRef = useRef(null)
+  const [canGoBack, setCanGoBack] = useState(false)
+  const [canGoForward, setCanGoForward] = useState(true)
+
+  // Grey out an arrow once the row is scrolled to that end
+  function updateArrows() {
+    const track = trackRef.current
+    setCanGoBack(track.scrollLeft > 4)
+    setCanGoForward(track.scrollLeft + track.clientWidth < track.scrollWidth - 4)
+  }
+
+  // Move by one card (card width + gap)
+  function scrollByCard(direction) {
+    const track = trackRef.current
+    const card = track.firstElementChild
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0
+    track.scrollBy({ left: direction * (card.offsetWidth + gap), behavior: 'smooth' })
+  }
+
   return (
     <section className="voices section" aria-labelledby="voices-title">
       <div className="voices__inner container">
@@ -57,12 +45,56 @@ function Testimonials() {
             Directors, HR heads, sales leaders, tech leads and entrepreneurs on
             Esther&rsquo;s sessions and keynotes.
           </p>
+          <div className="voices__arrows">
+            <button
+              type="button"
+              className="voices__arrow"
+              onClick={() => scrollByCard(-1)}
+              disabled={!canGoBack}
+              aria-label="Previous testimonial"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              className="voices__arrow"
+              onClick={() => scrollByCard(1)}
+              disabled={!canGoForward}
+              aria-label="Next testimonial"
+            >
+              →
+            </button>
+          </div>
         </header>
 
-        <div className="voices__columns" data-reveal>
-          {COLUMNS.map((items, index) => (
-            <QuoteColumn key={index} items={items} reverse={index === 1} />
-          ))}
+        {/* Swipe, drag the scrollbar or use the arrows to move through the quotes */}
+        <div
+          className={`voices__scroller ${canGoForward ? 'voices__scroller--more' : ''}`}
+          data-reveal
+        >
+          <p className="voices__hint" aria-hidden="true">
+            Swipe to read more <span className="voices__hint-arrow">→</span>
+          </p>
+          <ul className="voices__track" ref={trackRef} onScroll={updateArrows}>
+            {TESTIMONIALS.map((item) => (
+              <li key={item.name} className="voice-card">
+                <figure>
+                  <blockquote>
+                    <p>&ldquo;{item.quote}&rdquo;</p>
+                  </blockquote>
+                  <figcaption>
+                    <span className="voice-card__initial" aria-hidden="true">
+                      {item.name[0]}
+                    </span>
+                    <span>
+                      <strong>{item.name}</strong>
+                      {item.role}
+                    </span>
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

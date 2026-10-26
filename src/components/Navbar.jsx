@@ -5,6 +5,7 @@ import onStage from '../assets/images/esther-on-stage.webp'
 import redBlazer from '../assets/images/esther-red-blazer.webp'
 import microphone from '../assets/images/esther-microphone.webp'
 import hopePortrait from '../assets/images/esther-project-hope.webp'
+import logo from '../assets/images/esther-logo.png'
 import './Navbar.css'
 
 // Each menu link previews a different photograph on hover.
@@ -54,7 +55,7 @@ function Navbar() {
     <header className={headerClassName}>
       <div className="navbar__bar container">
         <a href="#top" className="navbar__brand" onClick={closeMenu}>
-          Esther <em>Indurkar</em>
+          <img src={logo} alt="Esther Indurkar" width="451" height="104" />
         </a>
 
         {/* Quick links on wide screens; the full menu has them all */}

@@ -4,6 +4,11 @@
   z-index: 800;
   display: grid;
   place-items: center;
+  cursor: pointer;
+}
+
+/* Once opening, let clicks through to the page */
+.loader--opening {
   pointer-events: none;
 }
 
@@ -35,6 +40,11 @@
   transform: translateX(100%);
 }
 
+/* A skip opens the curtains faster */
+.loader--skipped .loader__curtain {
+  transition-duration: 0.7s;
+}
+
 .loader__content {
   position: relative;
   text-align: center;
@@ -58,6 +68,22 @@
   margin-top: var(--space-3);
   font-variant-numeric: tabular-nums;
   opacity: 0.8;
+}
+
+.loader__skip {
+  margin-top: var(--space-4);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: loader-hint 0.6s ease 0.5s forwards;
+}
+
+@keyframes loader-hint {
+  to {
+    opacity: 0.6;
+  }
 }
 
 @keyframes loader-in {

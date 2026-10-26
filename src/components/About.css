@@ -25,34 +25,59 @@
     linear-gradient(170deg, var(--color-wine-700), var(--color-wine-900));
 }
 
-/* Arched photo with a thin outline arch offset behind it */
+/* Cut-out photo standing in front of a blush circle, with a thin ring
+   offset behind it. Nothing clips the photo, so her outstretched arm
+   can reach past the circle. */
+.about__figure {
+  overflow: hidden;
+}
+
 .about__photo {
   position: relative;
   width: min(80%, 26rem);
   aspect-ratio: 4 / 5;
-  border-radius: 999px 999px 1rem 1rem;
 }
 
-.about__photo::before {
+.about__photo::before,
+.about__photo::after {
   content: "";
   position: absolute;
-  inset: 1.25rem -1.25rem -1.25rem 1.25rem;
-  border: 1px solid rgba(236, 220, 196, 0.45);
-  border-radius: inherit;
+  left: 50%;
+  bottom: 18%;
+  width: 92%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% 0;
 }
 
-.about__photo img {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: inherit;
-  /* Soft blush inside the arch so it stands out from the wine panel */
+/* Thin outline ring, nudged down and to the right */
+.about__photo::before {
+  border: 1px solid rgba(236, 220, 196, 0.45);
+  transform: translate(1.25rem, 1.25rem);
+}
+
+/* Soft blush circle so she stands out from the wine panel */
+.about__photo::after {
   background:
-    radial-gradient(ellipse at 50% 30%, #fff6ef, transparent 70%),
+    radial-gradient(circle at 50% 35%, #fff6ef, transparent 70%),
     linear-gradient(180deg, #f7e2d8, #e9b9ae);
   box-shadow: 0 40px 70px -35px rgba(0, 0, 0, 0.7);
+}
+
+/* Her body sits about a third of the way across the cut-out (her arm
+   reaches out to the right), so that point is lined up with the centre.
+   The bottom fades out so the cropped legs don't end on a hard edge. */
+.about__photo img {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  translate: -33% 0;
+  -webkit-mask-image: linear-gradient(#000 75%, transparent);
+  mask-image: linear-gradient(#000 75%, transparent);
 }
 
 .about__caption {
@@ -64,6 +89,7 @@
   letter-spacing: 0.16em;
   text-align: center;
   text-transform: uppercase;
+  text-wrap: balance; /* two even lines on phones, not one word on its own */
   color: var(--color-champagne-muted);
 }
 
@@ -242,6 +268,15 @@
   .about__text {
     max-width: none;
     padding-inline: var(--gutter);
+  }
+
+  .about__figure {
+    padding-block: var(--space-6) var(--space-5);
+  }
+
+  /* The photo's faded legs already leave room, so less gap above the name */
+  .about__caption {
+    margin-top: var(--space-1);
   }
 }
 

@@ -1,5 +1,5 @@
-/* Soft blush section: heading on the left, columns of quotes
-   gliding up and down on the right */
+/* Soft blush section: heading and arrows on the left,
+   a row of quotes to scroll through on the right */
 .voices {
   overflow: hidden;
   background:
@@ -26,39 +26,106 @@
   color: var(--color-bone-text);
 }
 
-/* ---------- Scrolling columns ---------- */
-.voices__columns {
+/* ---------- Arrow buttons ---------- */
+.voices__arrows {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: var(--space-4);
+}
+
+.voices__arrow {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-3);
-  height: min(38rem, 80vh);
-  overflow: hidden;
-  /* Fade out softly at the top and bottom */
-  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
-  -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--color-crimson);
+  border-radius: 50%;
+  color: var(--color-crimson);
+  font-size: 1.1rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    opacity 0.3s ease;
 }
 
-.voices-col__track {
-  display: grid;
-  gap: var(--space-3);
-  animation: voices-up 40s linear infinite;
+.voices__arrow:hover:not(:disabled) {
+  background-color: var(--color-crimson);
+  color: var(--color-champagne);
 }
 
-/* The middle column glides the other way */
-.voices-col--reverse .voices-col__track {
-  animation-direction: reverse;
+.voices__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
 
-/* Pause when hovered so a quote can be read */
-.voices__columns:hover .voices-col__track {
-  animation-play-state: paused;
+/* ---------- Scrollable row of quotes ---------- */
+.voices__scroller {
+  position: relative;
+  min-width: 0;
 }
 
-/* Moves up by one full set of cards (half the track, plus half a gap) */
-@keyframes voices-up {
-  to {
-    transform: translateY(calc(-50% - var(--space-3) / 2));
+/* Soft fade on the right edge while there are more quotes to see */
+.voices__scroller::after {
+  content: "";
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  bottom: var(--space-3);
+  width: 4rem;
+  background: linear-gradient(to right, transparent, #f0cfc5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.voices__scroller--more::after {
+  opacity: 1;
+}
+
+/* "Swipe to read more →" with a nudging arrow */
+.voices__hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-crimson);
+}
+
+.voices__hint-arrow {
+  display: inline-block;
+  font-size: 1rem;
+  animation: voices-nudge 1.4s ease-in-out infinite;
+}
+
+@keyframes voices-nudge {
+  50% {
+    transform: translateX(0.4rem);
   }
+}
+
+.voices__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(16rem, 20rem);
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 22, 47, 0.4) transparent;
+}
+
+.voice-card {
+  scroll-snap-align: start;
+}
+
+.voice-card figure {
+  height: 100%;
 }
 
 /* ---------- Quote card ---------- */
@@ -117,46 +184,20 @@
   .voices__inner {
     grid-template-columns: minmax(0, 1fr);
   }
-
-  .voices__columns {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .voices-col:last-child {
-    display: none;
-  }
 }
 
 @media (max-width: 600px) {
-  .voices__columns {
-    grid-template-columns: minmax(0, 1fr);
-    height: 30rem;
+  .voices__inner {
+    gap: var(--space-3);
   }
 
-  .voices-col:nth-child(2) {
+  /* Phones swipe, so the arrows aren't needed */
+  .voices__arrows {
     display: none;
   }
-}
 
-/* Reduced motion: no movement; show all quotes in a simple grid */
-@media (prefers-reduced-motion: reduce) {
-  .voices__columns {
-    height: auto;
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
-
-  .voices-col__track {
-    animation: none;
-  }
-
-  .voices-col,
-  .voices-col:last-child,
-  .voices-col:nth-child(2) {
-    display: block;
-  }
-
-  .voice-card[aria-hidden="true"] {
-    display: none;
+  /* One card at a time, with the next one peeking in */
+  .voices__track {
+    grid-auto-columns: 85%;
   }
 }

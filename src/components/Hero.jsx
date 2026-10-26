@@ -5,25 +5,11 @@ import './Hero.css'
 const MIND_LETTERS = ['M', 'I', 'N', 'D']
 
 // Three depth layers: "MIND" behind Esther, her photo, "& Emotions" in
-// front. They shift by different amounts as the mouse moves, which
-// gives the flat cut-out photo real depth.
+// front of her.
 // `isReady` (from App) turns true when the intro curtains open.
 function Hero({ isReady }) {
-  // Pointer position as -1…1 from the centre, stored in CSS variables.
-  const handlePointerMove = (event) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-    const y = ((event.clientY - rect.top) / rect.height) * 2 - 1
-    event.currentTarget.style.setProperty('--mx', x.toFixed(3))
-    event.currentTarget.style.setProperty('--my', y.toFixed(3))
-  }
-
   return (
-    <section
-      id="top"
-      className={`hero ${isReady ? 'is-ready' : ''}`}
-      onPointerMove={handlePointerMove}
-    >
+    <section id="top" className={`hero ${isReady ? 'is-ready' : ''}`}>
       <h1 className="visually-hidden">Esther Indurkar: Harness the Power of Mind &amp; Emotions</h1>
 
       <div className="hero__stage" aria-hidden="true">
@@ -55,14 +41,6 @@ function Hero({ isReady }) {
       </div>
 
       {/* ---------- Corner details ---------- */}
-      <div className="hero__corner hero__corner--tl">
-        <p className="hero__roles">
-          Leadership Strategist
-          <br />
-          Global Keynote Speaker
-        </p>
-      </div>
-
       <a
         className="hero__corner hero__corner--tr"
         href={LINKS.tedxTalk}

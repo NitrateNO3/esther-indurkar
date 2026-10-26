@@ -111,8 +111,13 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Taller panel, shorter photo: leaves room above her head for the tag */
   .hope__visual {
-    min-height: 20rem;
+    min-height: 24rem;
+  }
+
+  .hope__visual img {
+    height: 76%;
   }
 }
 
@@ -124,5 +129,12 @@
   .hope__columns {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-3);
+  }
+
+  /* Full width so the label stays on one line */
+  .hope__cta {
+    align-self: stretch;
+    padding-inline: 1rem;
+    font-size: 0.68rem;
   }
 }

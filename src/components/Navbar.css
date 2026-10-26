@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0 0 auto;
   z-index: 200;
-  color: var(--color-champagne);
+  color: var(--color-gold); /* everything in the navbar takes the logo's gold */
 }
 
 /* The bar itself; gains a soft dark fade once the page scrolls */
@@ -15,18 +15,19 @@
   height: var(--nav-height);
 }
 
-/* A crisp dark bar once scrolled. It's a pseudo-element, so its blur
-   doesn't trap the full-screen menu, and it looks clean over the
-   light sections as well as the dark ones. */
+/* A deep black-wine bar with a thin gold line once scrolled, to suit the
+   gold logo (the original site shows it on black). It's a pseudo-element,
+   so its blur doesn't trap the full-screen menu. */
 .navbar::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
   height: var(--nav-height);
-  background-color: rgba(12, 6, 7, 0.95);
+  background: linear-gradient(90deg, rgba(12, 6, 7, 0.96), rgba(34, 10, 15, 0.96) 50%, rgba(12, 6, 7, 0.96));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-line-dark);
+  border-bottom: 1px solid var(--color-line-gold);
+  box-shadow: 0 10px 30px -18px rgba(31, 12, 16, 0.8);
   opacity: 0;
   transition: opacity 0.6s ease;
   pointer-events: none;
@@ -36,16 +37,14 @@
   opacity: 1;
 }
 
+/* The I.ESTHER logo from estherindurkar.com */
 .navbar__brand {
   justify-self: start;
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  line-height: 1;
-  letter-spacing: -0.015em;
 }
 
-.navbar__brand em {
-  color: var(--color-crimson-light);
+.navbar__brand img {
+  width: auto;
+  height: 2rem;
 }
 
 /* Shared small-caps style for the bar's links and buttons */
@@ -68,7 +67,7 @@
 .navbar__link {
   position: relative;
   padding-block: 0.4rem;
-  color: var(--color-champagne-muted);
+  color: var(--color-gold-muted);
   transition: color 0.3s ease;
 }
 
@@ -80,14 +79,14 @@
   bottom: 0;
   width: 100%;
   height: 1px;
-  background-color: var(--color-crimson-light);
+  background-color: var(--color-gold);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.5s var(--ease-out);
 }
 
 .navbar__link:hover {
-  color: var(--color-champagne);
+  color: var(--color-gold-light);
 }
 
 .navbar__link:hover::after {
@@ -103,10 +102,10 @@
   gap: var(--space-3);
 }
 
-/* Outlined pill that fills with champagne on hover */
+/* Outlined pill that fills with gold on hover */
 .navbar__connect {
   padding: 0.75rem 1.3rem;
-  border: 1px solid rgba(236, 220, 196, 0.45);
+  border: 1px solid var(--color-gold-muted);
   border-radius: 999px;
   transition:
     background-color 0.4s ease,
@@ -115,8 +114,8 @@
 }
 
 .navbar__connect:hover {
-  background-color: var(--color-champagne);
-  border-color: var(--color-champagne);
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
   color: var(--color-ink);
 }
 
@@ -160,8 +159,8 @@
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(ellipse at 75% 60%, rgba(163, 22, 47, 0.35), transparent 55%),
-    var(--color-wine-900);
+    radial-gradient(ellipse at 75% 60%, rgba(232, 190, 92, 0.1), transparent 55%),
+    var(--color-ink);
   clip-path: inset(0 0 100% 0);
   transition: clip-path 1s var(--ease-in-out);
 }
@@ -179,6 +178,8 @@
 }
 
 .menu__links {
+  display: grid;
+  gap: clamp(1rem, 0.6rem + 1.2vw, 1.75rem);
   align-self: center;
 }
 
@@ -192,8 +193,8 @@
   align-items: baseline;
   gap: var(--space-3);
   font-family: var(--font-display);
-  font-size: clamp(3rem, 1.5rem + 6vw, 7.5rem);
-  line-height: 1.02;
+  font-size: clamp(2rem, 1.25rem + 3vw, 4.25rem);
+  line-height: 1.1;
   letter-spacing: -0.03em;
   transform: translateY(105%);
   transition:
@@ -210,7 +211,7 @@
 .menu__link:hover,
 .menu__link:focus-visible {
   font-style: italic;
-  color: var(--color-crimson-light);
+  color: var(--color-gold-light);
 }
 
 .menu__index {
@@ -224,8 +225,35 @@
   height: min(70vh, 38rem);
 }
 
+/* Blush arch behind the photos, with a thin outline arch offset behind
+   it, so the cut-outs stand out from the dark menu */
+.menu__preview::before,
+.menu__preview::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: min(72%, 24rem);
+  height: 86%;
+  border-radius: 999px 999px 0 0; /* flat base the photos stand on */
+  translate: -50% 0;
+}
+
+.menu__preview::before {
+  border: 1px solid var(--color-line-gold);
+  transform: translate(1.25rem, -1.25rem);
+}
+
+.menu__preview::after {
+  background:
+    radial-gradient(ellipse at 50% 30%, #fff6ef, transparent 70%),
+    linear-gradient(180deg, #f7e2d8, #e9b9ae);
+  box-shadow: 0 40px 70px -35px rgba(0, 0, 0, 0.7);
+}
+
 .menu__preview img {
   position: absolute;
+  z-index: 1;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -252,7 +280,7 @@
   justify-content: space-between;
   gap: var(--space-2);
   padding-block: var(--space-3);
-  border-top: 1px solid var(--color-line-dark);
+  border-top: 1px solid var(--color-line-gold);
   opacity: 0.75;
 }
 
